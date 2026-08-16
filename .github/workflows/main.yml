@@ -15,9 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build kext with xcodebuild
-        run: |
-          xcodebuild -project SimpleMtkWlan.xcodeproj -scheme SimpleMtkWlan -configuration Debug build MACOSX_DEPLOYMENT_TARGET=10.13
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_12.5.1.app
+
+      - name: Build kext
+        run: xcodebuild -project SimpleMtkWlan.xcodeproj -scheme SimpleMtkWlan -configuration Debug build
 
       - name: Upload kext as artifact
         uses: actions/upload-artifact@v4
