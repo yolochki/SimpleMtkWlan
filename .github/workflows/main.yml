@@ -1,0 +1,26 @@
+name: Build Kext
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest  # 👈 This gives you macOS + Xcode
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build kext with xcodebuild
+        run: |
+          xcodebuild -project SimpleMtkWlan.xcodeproj -scheme SimpleMtkWlan -configuration Debug build
+
+      - name: Upload kext as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimpleMtkWlan.kext
+          path: build/Release/SimpleMtkWlan.kext
